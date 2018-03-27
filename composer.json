@@ -1,0 +1,31 @@
+{
+    "name": "codestepz/linebotphp",
+    "version": "1.0.0",
+    "description": "LINE BOT API with PHP7",
+    "homepage": "https://codestep.io",
+    "keywords": [ "codestep", "library", "linebot" ],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eakkabin Jaikeawma",
+            "email": "eakkabin_it@hotmail.com",
+            "homepage": "https://codestep.io"
+        }
+    ],
+    "require": {
+      "php": "^7.0",
+      "linecorp/line-bot-sdk": "^2.3"
+    },
+    "autoload": {
+      "psr-4": {
+        "Codestep\\": "src/"
+      }
+    },
+    "repositories": [
+      {
+        "type": "vcs",
+        "url": "git@github.com:codestepz/linebotphp.git"
+      }
+    ]
+  }
