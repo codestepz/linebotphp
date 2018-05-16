@@ -86,6 +86,8 @@ class LineBotPhp extends LINEBot {
             }
 
         }
+	    
+	// file_put_contents(__DIR__ . '/logs/log_' . date("Y-m-d-HH-ii-ss") . '.txt', $events);
 	
         parent::__construct($this->httpClient, [ 'channelSecret' => $channelSecret ]);
 		
