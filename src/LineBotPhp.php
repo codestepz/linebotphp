@@ -14,6 +14,8 @@ class LineBotPhp extends LINEBot {
      * Variable
      * ==================================================================================== */
 	
+    private $bot            = null;
+
     private $httpClient     = null;
     private $endpointBase   = null;
     private $channelSecret  = null;
@@ -25,7 +27,11 @@ class LineBotPhp extends LINEBot {
     public $isText          = false;
     public $isImage         = false;
     public $isSticker       = false;
-	
+
+    public $displayName     = null;
+    public $pictureUrl      = null;
+    public $statusMessage   = null;
+
     public $text            = null;
     public $replyToken      = null;
     public $source          = null;
@@ -39,7 +45,9 @@ class LineBotPhp extends LINEBot {
      * ==================================================================================== */
 	
     public function __construct ($channelSecret, $access_token) {
-		
+
+	$this->bot            = new \LINE\LINEBot(new CurlHTTPClient($access_token), [ 'channelSecret' => $channelSecret ]);
+
         $this->httpClient     = new CurlHTTPClient($access_token);
         $this->channelSecret  = $channelSecret;
         $this->endpointBase   = LINEBot::DEFAULT_ENDPOINT_BASE;
@@ -54,6 +62,9 @@ class LineBotPhp extends LINEBot {
 			
             foreach ($events['events'] as $event) {
 				
+		// get profile
+                $this->getProfile($event['source']['userId']);
+
                 $this->replyToken = $event['replyToken'];
                 $this->source     = (object) $event['source'];
                 $this->message    = (object) $event['message'];
@@ -75,9 +86,7 @@ class LineBotPhp extends LINEBot {
             }
 
         }
-
-        // file_put_contents(__DIR__ . '/logs/log_' . date("Y-m-d-HH-ii-ss") . '.txt', $events);
-		
+	
         parent::__construct($this->httpClient, [ 'channelSecret' => $channelSecret ]);
 		
     }
@@ -98,7 +107,17 @@ class LineBotPhp extends LINEBot {
             'messages'   => $messageBuilder->buildMessage(),
         ]);
     }
-	
+
+    public function getProfile ($userId = null) {
+	$res = $this->bot->getProfile(!empty($userId) ? $userId : $this->source->userId);
+	if ($res->isSucceeded()) {
+            $arrData             = $res->getJSONDecodedBody(); // return array
+            $this->displayName   = $arrData['displayName'];
+            $this->pictureUrl    = str_replace("\\", '', $arrData['pictureUrl']);
+            $this->statusMessage = $arrData['statusMessage'];
+        }
+    }
+
     public function isSuccess () {
         return !empty($this->response->isSucceeded()) ? true : false;
     }
