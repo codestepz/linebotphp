@@ -12,7 +12,7 @@ $bot = new \Codestep\LineBotPhp($setting->channelSecret, $setting->access_token)
 if (!empty($bot->isEvents)) {
 	
     // เพิ่ม displayName
-    $this->message->displayName = $bot->displayName;
+    $bot->message->displayName = $bot->displayName;
 
     // ตอบกลับ
     $bot->replyMessageNew($bot->replyToken, json_encode($bot->message));
