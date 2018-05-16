@@ -1,6 +1,6 @@
 {
     "name": "codestepz/linebotphp",
-    "version": "1.0.1",
+    "version": "1.0.3",
     "description": "LINE BOT API with PHP7",
     "homepage": "https://codestep.io",
     "keywords": [ "codestep", "library", "linebot" ],
